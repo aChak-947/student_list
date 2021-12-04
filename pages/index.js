@@ -1,9 +1,11 @@
-import Head from 'next/head'
-import Image from 'next/image'
+//import Head from 'next/head'
+//import Image from 'next/image'
 //import styles from '../styles/Home.module.css'
 import data from './mock-data.json'
-import React, {useState} from "react"
+import React, {useState, Fragment} from "react"
 import {nanoid} from 'nanoid'
+//import Link from 'next/link'
+import ReadOnlyRow from './components/readOnlyRow'
 
 export default function Home() {
 
@@ -42,30 +44,44 @@ export default function Home() {
     setContacts(newContacts);
   };
 
+  const handleDeleteClick = (contactId) => {
+    const newContacts = [...contacts];
+
+    const index = contacts.findIndex((contact) => contact.id === contactId);
+
+    newContacts.splice(index, 1);
+
+    setContacts(newContacts);
+  };
+
   return (
     <div className="app-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Address</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contacts.map((contact)=> (
+        <form>
+          <table>
+            <thead>
               <tr>
-                <td>{contact.fullName}</td>
-                <td>{contact.address}</td>
-                <td>{contact.phoneNumber}</td>
-                <td>{contact.email}</td>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Delete</th>
               </tr>
-            ))}
-            
-          </tbody>
-    
-        </table>
+            </thead>
+            <tbody>
+              {contacts.map((contact)=> (
+                <Fragment>
+                  <ReadOnlyRow 
+                    contact = {contact}
+                    handleDeleteClick={handleDeleteClick}
+                  />
+
+                </Fragment>
+              ))}
+              
+            </tbody>
+      
+          </table>
+        </form>
         
         <h2>Add a Student</h2>
         <form onSubmit={handleAddFormSubmit}>
@@ -99,6 +115,13 @@ export default function Home() {
         />
         <button type="submit">Add</button>
       </form>
+
+      {/* <h1 className="title">
+        {' '}
+        <Link href="/form">
+          <a>Add Student</a>
+        </Link>
+      </h1> */}
     </div>
   )
 }

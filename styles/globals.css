@@ -39,3 +39,11 @@ form td:last-child {
 form * {
   font-size: 28px;
 }
+
+.student-add-form {
+  display: flex;
+}
+
+.student-add-form-field {
+  flex: 1;
+}
